@@ -1,11 +1,9 @@
 ## JAVA Spring Boot - Order
 
 * Instalar versão do java jdk-17
+* Instalar docker no sistema operacional.
 
-## Lombok
-
-* Configurar lombok na ferramenta de desenvolvimento
-
-### Dependencies
-- Spring Framework
+## Configuração por docker
+- Instale o docker no seu sistema operacional
+- TODO:
 
