@@ -1,4 +1,39 @@
+version: '3'
 services:
+  zookeeper:
+    image: 'confluentinc/cp-zookeeper:7.4.1'
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ALLOW_ANONYMOUS_LOGIN: yes
+
+  kafka:
+    image: 'confluentinc/cp-kafka:7.4.1'
+    container_name: kafka
+    environment:
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://:9092
+      KAFKA_LISTENERS: PLAINTEXT://:9092
+      KAFKA_MESSAGE_MAX_BYTES: 300000000
+      KAFKA_REPLICA_FETCH_MAX_BYTES: 300000000
+      KAFKA_FETCH_MESSAGE_MAX_BYTES: 300000000
+    ports:
+      - "9092:9092"
+    extra_hosts:
+      - "moby:127.0.0.1"
+    depends_on:
+      - zookeeper
+    healthcheck:
+      test: ["CMD", "sh", "-c", "echo > /dev/tcp/localhost/9092"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
   db:
     image: 'postgres:latest'
     container_name: db
@@ -12,6 +47,11 @@ services:
       - POSTGRES_USER=$DB_USERNAME
       - POSTGRES_PASSWORD=$DB_PASSWORD
       - POSTGRES_DB=$DATABASE_NAME
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $DB_USERNAME" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   spring-app:
     container_name: spring_app
@@ -28,6 +68,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=$DB_PASSWORD
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
-      - db
+      kafka:
+        condition: service_healthy
 volumes:
   db_data:
