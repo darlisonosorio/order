@@ -25,10 +25,12 @@ public abstract class BaseEntity {
     @GeneratedValue
     @Column(name = "id", columnDefinition = "uuid")
     private UUID id;
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @CreatedDate
     @Column(name = "dt_created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
     @LastModifiedDate
     @Column(name = "dt_updated_at")
     private LocalDateTime updatedAt;
