@@ -10,11 +10,14 @@ import br.com.darlison.order.domain.mapper.OrderMapper;
 import br.com.darlison.order.domain.mapper.ProductMapper;
 import br.com.darlison.order.domain.model.Client;
 import br.com.darlison.order.domain.model.Order;
+import br.com.darlison.order.domain.model.Product;
 import br.com.darlison.order.domain.port.repository.ClientRepository;
 import br.com.darlison.order.domain.port.repository.OrderRepository;
 import br.com.darlison.order.domain.port.usecase.SaveOrderUseCase;
 import jakarta.transaction.Transactional;
 import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 public class SaveOrderUseCaseImpl implements SaveOrderUseCase {
 
@@ -53,14 +56,14 @@ public class SaveOrderUseCaseImpl implements SaveOrderUseCase {
         }
     }
 
-    private void saveOrder(final OrderDto orderDto,
-                           final Client client) {
+    private void saveOrder(final OrderDto orderDto, final Client client) {
         try {
+            final List<Product> products = orderDto.produtos().stream().map(ProductMapper::map).toList();
             final Order model = OrderMapper.map(
-                    orderDto,
-                    client,
-                    orderDto.produtos().stream().map(ProductMapper::map).toList(),
-                    OrderStatus.PENDING
+                orderDto,
+                client,
+                products,
+                OrderStatus.PENDING
             );
             orderRepository.save(model);
         } catch (Exception e) {

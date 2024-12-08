@@ -21,10 +21,14 @@ public class ClientServiceImpl implements ClientRepository {
 
     @Override
     public Client getOrCreate(Client client) {
-        return repository.findByEmail(client.getEmail()).or(() -> {
-            ClientEntity entity = objectMapper.convertValue(client, ClientEntity.class);
-            return Optional.of(repository.save(entity));
-        }).map(it -> objectMapper.convertValue(it, Client.class)).get();
+        return repository.findByEmail(client.getEmail())
+            .map(existingClientEntity -> objectMapper.convertValue(existingClientEntity, Client.class))
+            .orElseGet(() -> createClient(client));
     }
 
+    private Client createClient(Client client) {
+        ClientEntity entity = objectMapper.convertValue(client, ClientEntity.class);
+        ClientEntity savedEntity = repository.save(entity);
+        return objectMapper.convertValue(savedEntity, Client.class);
+    }
 }

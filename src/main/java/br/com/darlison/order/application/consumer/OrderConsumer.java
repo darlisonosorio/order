@@ -18,13 +18,15 @@ public class OrderConsumer {
 
     private SaveOrderUseCase saveOrderUseCase;
 
-    @KafkaListener(topics = "orders", groupId = "order-service-group")
-    public void consume(final String message) throws JsonProcessingException {
+    @KafkaListener(topics = "orders", groupId = "order-service-group", concurrency = "3")
+    public void consume(final String message) {
         try {
             System.out.println("Pedido recebido: " + message);
             OrderDto orderDto = objectMapper.readValue(message, OrderDto.class);
             saveOrderUseCase.save(orderDto);
-        } catch (SaveOrderException e) {
+        } catch (JsonProcessingException e) {
+            System.out.println("Erro durante a leitura do pedido. " + e.getMessage());
+        }  catch (SaveOrderException e) {
             System.out.println("Pedido rejeitado: " + e.getMessage());
         }
 
