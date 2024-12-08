@@ -3,7 +3,7 @@ package br.com.darlison.order.domain.enums;
 public enum OrderStatus {
 
     PENDING,
-    CALCULATING,
+    PROCESSING,
     DONE;
 
 }

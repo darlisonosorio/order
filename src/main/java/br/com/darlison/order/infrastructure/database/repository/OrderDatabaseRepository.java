@@ -1,15 +1,20 @@
 package br.com.darlison.order.infrastructure.database.repository;
 
-import br.com.darlison.order.infrastructure.database.entity.ClientEntity;
+import br.com.darlison.order.domain.enums.OrderStatus;
 import br.com.darlison.order.infrastructure.database.entity.OrderEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
 public interface OrderDatabaseRepository extends JpaRepository<OrderEntity, UUID> {
 
     boolean existsByOrderId(String orderId);
+
+    Page<OrderEntity> findByStatus(OrderStatus status, Pageable pageable);
 
 }

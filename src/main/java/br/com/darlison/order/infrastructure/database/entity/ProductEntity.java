@@ -25,7 +25,7 @@ public class ProductEntity extends BaseEntity {
     private BigDecimal price;
 
     @Column(name = "num_quantity", nullable = false)
-    private BigDecimal quantity;
+    private int quantity;
 
     @Column(name = "num_total_price")
     private BigDecimal totalPrice;

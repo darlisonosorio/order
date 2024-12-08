@@ -24,6 +24,7 @@ public class OrderConsumer {
             System.out.println("Pedido recebido: " + message);
             OrderDto orderDto = objectMapper.readValue(message, OrderDto.class);
             saveOrderUseCase.save(orderDto);
+            System.out.println("Pedido inserido com sucesso.");
         } catch (JsonProcessingException e) {
             System.out.println("Erro durante a leitura do pedido. " + e.getMessage());
         }  catch (SaveOrderException e) {
