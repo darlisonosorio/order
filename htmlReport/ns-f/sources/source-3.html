@@ -1,0 +1,180 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > Order</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">br.com.darlison.order.domain.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Order (br.com.darlison.order.domain.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Order</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92,3%
+  </span>
+  <span class="absValue">
+    (12/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94,4%
+  </span>
+  <span class="absValue">
+    (17/18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package br.com.darlison.order.domain.model;
+&nbsp;
+&nbsp;import br.com.darlison.order.domain.enums.OrderStatus;
+&nbsp;
+&nbsp;import java.math.BigDecimal;
+&nbsp;import java.time.LocalDateTime;
+&nbsp;import java.util.List;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;public class Order extends BaseModel {
+&nbsp;
+&nbsp;    private String orderId;
+&nbsp;
+&nbsp;    private OrderStatus status;
+&nbsp;
+&nbsp;    private BigDecimal totalPrice;
+&nbsp;
+&nbsp;    private Client client;
+&nbsp;
+&nbsp;    private List&lt;Product&gt; products;
+&nbsp;
+&nbsp;    public Order(UUID id) {
+<b class="nc">&nbsp;        super(id);</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public Order() {}</b>
+&nbsp;
+&nbsp;    public Order(UUID id, String orderId, OrderStatus status, BigDecimal totalPrice, Client client, List&lt;Product&gt; products, LocalDateTime createdAt, LocalDateTime updatedAt) {
+<b class="fc">&nbsp;        super(id, createdAt, updatedAt);</b>
+<b class="fc">&nbsp;        this.status = status;</b>
+<b class="fc">&nbsp;        this.orderId = orderId;</b>
+<b class="fc">&nbsp;        this.totalPrice = totalPrice;</b>
+<b class="fc">&nbsp;        this.client = client;</b>
+<b class="fc">&nbsp;        this.products = products;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getOrderId() {
+<b class="fc">&nbsp;        return orderId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setOrderId(String orderId) {
+<b class="fc">&nbsp;        this.orderId = orderId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public OrderStatus getStatus() {
+<b class="fc">&nbsp;        return status;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setStatus(OrderStatus status) {
+<b class="fc">&nbsp;        this.status = status;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public BigDecimal getTotalPrice() {
+<b class="fc">&nbsp;        return totalPrice;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setTotalPrice(BigDecimal totalPrice) {
+<b class="fc">&nbsp;        this.totalPrice = totalPrice;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Client getClient() {
+<b class="fc">&nbsp;        return client;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setClient(Client client) {
+<b class="fc">&nbsp;        this.client = client;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Product&gt; getProducts() {
+<b class="fc">&nbsp;        return products;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setProducts(List&lt;Product&gt; products) {
+<b class="fc">&nbsp;        this.products = products;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-09 04:19</div>
+</div>
+</body>
+</html>

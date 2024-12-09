@@ -1,0 +1,92 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GetOrderUseCase</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">br.com.darlison.order.domain.port.usecase</a>
+</div>
+
+<h1>Coverage Summary for Class: GetOrderUseCase (br.com.darlison.order.domain.port.usecase)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">GetOrderUseCase$MockitoMock$tIpECHNh</td>
+  </tr>
+  <tr>
+    <td class="name">GetOrderUseCase$MockitoMock$tIpECHNh$auxiliary$OPl7O3yH</td>
+  </tr>
+  <tr>
+    <td class="name">GetOrderUseCase$MockitoMock$tIpECHNh$auxiliary$VyMdu8Ue</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package br.com.darlison.order.domain.port.usecase;
+&nbsp;
+&nbsp;import br.com.darlison.order.domain.enums.OrderStatus;
+&nbsp;import br.com.darlison.order.domain.model.Order;
+&nbsp;import org.springframework.data.domain.Page;
+&nbsp;
+&nbsp;import java.util.Optional;
+&nbsp;
+&nbsp;public interface GetOrderUseCase {
+&nbsp;
+&nbsp;    Page&lt;Order&gt; list(String userEmail, OrderStatus status, String productName, int page, int limit);
+&nbsp;
+&nbsp;    Optional&lt;Order&gt; get(String id);
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-09 04:19</div>
+</div>
+</body>
+</html>

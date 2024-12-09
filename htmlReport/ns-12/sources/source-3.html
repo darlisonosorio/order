@@ -1,0 +1,165 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > OrderEntity</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">br.com.darlison.order.infrastructure.database.entity</a>
+</div>
+
+<h1>Coverage Summary for Class: OrderEntity (br.com.darlison.order.infrastructure.database.entity)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">OrderEntity</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">OrderEntity$HibernateInstantiator$lGz6Vyy0</td>
+  </tr>
+  <tr>
+    <td class="name">OrderEntity$HibernateProxy$1AvS7G4G</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package br.com.darlison.order.infrastructure.database.entity;
+&nbsp;
+&nbsp;
+&nbsp;import br.com.darlison.order.domain.enums.OrderStatus;
+&nbsp;import com.fasterxml.jackson.annotation.JsonBackReference;
+&nbsp;import com.fasterxml.jackson.annotation.JsonIgnore;
+&nbsp;import jakarta.persistence.*;
+&nbsp;import lombok.Getter;
+&nbsp;import lombok.NoArgsConstructor;
+&nbsp;import lombok.Setter;
+&nbsp;import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+&nbsp;
+&nbsp;import java.math.BigDecimal;
+&nbsp;import java.util.List;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;@Getter
+&nbsp;@Setter
+&nbsp;@NoArgsConstructor
+&nbsp;@Entity(name = &quot;tb_order&quot;)
+&nbsp;@EntityListeners(AuditingEntityListener.class)
+&nbsp;public class OrderEntity extends BaseEntity {
+&nbsp;
+&nbsp;    @Column(name = &quot;tx_order_id&quot;, unique = true, nullable = false)
+&nbsp;    private String orderId;
+&nbsp;
+&nbsp;    @Column(name = &quot;num_total_price&quot;)
+&nbsp;    private BigDecimal totalPrice;
+&nbsp;
+&nbsp;    @Enumerated(value=EnumType.STRING)
+&nbsp;    @Column(name = &quot;tx_status&quot;)
+&nbsp;    private OrderStatus status;
+&nbsp;
+&nbsp;    @JsonBackReference
+&nbsp;    @ManyToOne(fetch = FetchType.LAZY)
+&nbsp;    @JoinColumn(name = &quot;fk_client&quot;, referencedColumnName = &quot;id&quot;, nullable = false)
+&nbsp;    private ClientEntity clientEntity;
+&nbsp;
+&nbsp;    @JsonIgnore
+&nbsp;    @JsonBackReference
+&nbsp;    @OneToMany(mappedBy = &quot;orderEntity&quot;, cascade = CascadeType.ALL, orphanRemoval = true)
+&nbsp;    private List&lt;ProductEntity&gt; productEntities;
+&nbsp;
+&nbsp;    public OrderEntity(UUID id) {
+<b class="nc">&nbsp;        super(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-09 04:19</div>
+</div>
+</body>
+</html>

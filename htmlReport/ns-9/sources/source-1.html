@@ -1,0 +1,271 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > GlobalExceptionHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">br.com.darlison.order.common.handler</a>
+</div>
+
+<h1>Coverage Summary for Class: GlobalExceptionHandler (br.com.darlison.order.common.handler)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GlobalExceptionHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    13,3%
+  </span>
+  <span class="absValue">
+    (2/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2,2%
+  </span>
+  <span class="absValue">
+    (2/92)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package br.com.darlison.order.common.handler;
+&nbsp;
+&nbsp;import br.com.darlison.order.common.exception.APIException;
+&nbsp;import br.com.darlison.order.common.exception.BadRequestException;
+&nbsp;import com.fasterxml.jackson.core.JsonProcessingException;
+&nbsp;import jakarta.validation.ConstraintViolation;
+&nbsp;import jakarta.validation.ConstraintViolationException;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.http.converter.HttpMessageNotReadableException;
+&nbsp;import org.springframework.validation.BindException;
+&nbsp;import org.springframework.web.HttpRequestMethodNotSupportedException;
+&nbsp;import org.springframework.web.bind.MethodArgumentNotValidException;
+&nbsp;import org.springframework.web.bind.MissingServletRequestParameterException;
+&nbsp;import org.springframework.web.bind.annotation.ControllerAdvice;
+&nbsp;import org.springframework.web.bind.annotation.ExceptionHandler;
+&nbsp;import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+&nbsp;import org.springframework.web.server.ServerWebInputException;
+&nbsp;
+&nbsp;import java.security.SignatureException;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@ControllerAdvice
+<b class="fc">&nbsp;@Slf4j</b>
+<b class="fc">&nbsp;public class GlobalExceptionHandler {</b>
+&nbsp;    @ExceptionHandler
+&nbsp;    public ResponseEntity&lt;APIException&gt; handleException(Throwable throwable) {
+<b class="nc">&nbsp;        APIException failedResponse = APIException.builder()</b>
+<b class="nc">&nbsp;                .code(&quot;ERROR-500&quot;)</b>
+<b class="nc">&nbsp;                .message(&quot;Não foi possível atender a requisição. Erro Interno.&quot;)</b>
+<b class="nc">&nbsp;                .reason(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())</b>
+<b class="nc">&nbsp;                .build();</b>
+<b class="nc">&nbsp;        log.error(String.format(&quot;Code: %s Message: %s &quot;, failedResponse.getCode(), throwable.getMessage()));</b>
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(failedResponse);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler
+&nbsp;    public ResponseEntity&lt;APIException&gt; handlerServerInputException(ServerWebInputException e) {
+<b class="nc">&nbsp;        APIException failedResponse = APIException.builder()</b>
+<b class="nc">&nbsp;                .message(e.getMessage())</b>
+<b class="nc">&nbsp;                .code(&quot;SERV-EXC-00&quot;)</b>
+<b class="nc">&nbsp;                .reason(HttpStatus.BAD_REQUEST.getReasonPhrase())</b>
+<b class="nc">&nbsp;                .build();</b>
+<b class="nc">&nbsp;        log.error(String.format(&quot;Code: %s Message: %s &quot;, failedResponse.getCode(), failedResponse.getMessage()));</b>
+<b class="nc">&nbsp;        return ResponseEntity.badRequest().body(failedResponse);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler
+&nbsp;    public ResponseEntity&lt;APIException&gt; handlerServerInputException(BadRequestException e) {
+<b class="nc">&nbsp;        log.error(String.format(&quot;Code: %s Message: %s &quot;, e.getFailedResponse().getCode(), e.getFailedResponse().getMessage()));</b>
+<b class="nc">&nbsp;        return ResponseEntity.badRequest().body(e.getFailedResponse());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler
+&nbsp;    public ResponseEntity&lt;APIException&gt; handlerHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+<b class="nc">&nbsp;        APIException failedResponse = APIException.builder()</b>
+<b class="nc">&nbsp;                .message(e.getMessage())</b>
+<b class="nc">&nbsp;                .code(&quot;HTTP-EXC-00&quot;)</b>
+<b class="nc">&nbsp;                .reason(HttpStatus.BAD_REQUEST.getReasonPhrase())</b>
+<b class="nc">&nbsp;                .build();</b>
+<b class="nc">&nbsp;        log.error(String.format(&quot;Code: %s Message: %s &quot;, failedResponse.getCode(), failedResponse.getMessage()));</b>
+<b class="nc">&nbsp;        return ResponseEntity.badRequest().body(failedResponse);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler
+&nbsp;    public ResponseEntity&lt;APIException&gt; handlerMissingServletRequestParameterException(MissingServletRequestParameterException e) {
+<b class="nc">&nbsp;        APIException failedResponse = APIException.builder()</b>
+<b class="nc">&nbsp;                .message(e.getMessage())</b>
+<b class="nc">&nbsp;                .code(&quot;MISS-EXC-00&quot;)</b>
+<b class="nc">&nbsp;                .reason(HttpStatus.BAD_REQUEST.getReasonPhrase())</b>
+<b class="nc">&nbsp;                .build();</b>
+<b class="nc">&nbsp;        log.error(String.format(&quot;Code: %s Message: %s &quot;, failedResponse.getCode(), failedResponse.getMessage()));</b>
+<b class="nc">&nbsp;        return ResponseEntity.badRequest().body(failedResponse);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler
+&nbsp;    public ResponseEntity&lt;APIException&gt; handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+<b class="nc">&nbsp;        APIException failedResponse = APIException.builder()</b>
+<b class="nc">&nbsp;                .message(e.getMessage())</b>
+<b class="nc">&nbsp;                .code(&quot;METH-EXC-00&quot;)</b>
+<b class="nc">&nbsp;                .reason(HttpStatus.BAD_REQUEST.getReasonPhrase())</b>
+<b class="nc">&nbsp;                .build();</b>
+<b class="nc">&nbsp;        log.error(String.format(&quot;Code: %s Message: %s &quot;, failedResponse.getCode(), failedResponse.getMessage()));</b>
+<b class="nc">&nbsp;        return ResponseEntity.badRequest().body(failedResponse);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler
+&nbsp;    public ResponseEntity&lt;APIException&gt; handleJsonProcessingException(JsonProcessingException e) {
+<b class="nc">&nbsp;        APIException failedResponse = APIException.builder()</b>
+<b class="nc">&nbsp;                .message(e.getMessage())</b>
+<b class="nc">&nbsp;                .code(&quot;JSON-EXC-00&quot;)</b>
+<b class="nc">&nbsp;                .reason(HttpStatus.BAD_REQUEST.getReasonPhrase())</b>
+<b class="nc">&nbsp;                .build();</b>
+<b class="nc">&nbsp;        log.error(String.format(&quot;Code: %s Message: %s &quot;, failedResponse.getCode(), failedResponse.getMessage()));</b>
+<b class="nc">&nbsp;        return ResponseEntity.badRequest().body(failedResponse);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler
+&nbsp;    public ResponseEntity&lt;APIException&gt; handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+<b class="nc">&nbsp;        APIException failedResponse = APIException.builder()</b>
+<b class="nc">&nbsp;                .message(e.getMessage())</b>
+<b class="nc">&nbsp;                .reason(HttpStatus.BAD_REQUEST.getReasonPhrase())</b>
+<b class="nc">&nbsp;                .code(&quot;HTTP-EXC-00&quot;)</b>
+<b class="nc">&nbsp;                .build();</b>
+<b class="nc">&nbsp;        log.error(String.format(&quot;Code: %s Message: %s &quot;, failedResponse.getCode(), failedResponse.getMessage()));</b>
+<b class="nc">&nbsp;        return ResponseEntity.badRequest().body(failedResponse);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler
+&nbsp;    public ResponseEntity&lt;APIException&gt; handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+<b class="nc">&nbsp;        APIException failedResponse = APIException.builder()</b>
+<b class="nc">&nbsp;                .message(e.getMessage())</b>
+<b class="nc">&nbsp;                .code(&quot;METH-EXC-00&quot;)</b>
+<b class="nc">&nbsp;                .reason(HttpStatus.BAD_REQUEST.getReasonPhrase())</b>
+<b class="nc">&nbsp;                .build();</b>
+<b class="nc">&nbsp;        log.error(String.format(&quot;Code: %s Message: %s &quot;, failedResponse.getCode(), failedResponse.getMessage()));</b>
+<b class="nc">&nbsp;        return ResponseEntity.badRequest().body(failedResponse);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler
+&nbsp;    public ResponseEntity&lt;APIException&gt; handleConstraintViolationException(ConstraintViolationException e) {
+<b class="nc">&nbsp;        String message = e.getConstraintViolations().stream()</b>
+<b class="nc">&nbsp;                .map(ConstraintViolation::getMessage)</b>
+<b class="nc">&nbsp;                .findFirst()</b>
+<b class="nc">&nbsp;                .orElse(&quot;&quot;);</b>
+<b class="nc">&nbsp;        APIException failedResponse = APIException.builder()</b>
+<b class="nc">&nbsp;                .code(&quot;CONS-EXC-00&quot;)</b>
+<b class="nc">&nbsp;                .message(message)</b>
+<b class="nc">&nbsp;                .reason(HttpStatus.BAD_REQUEST.getReasonPhrase())</b>
+<b class="nc">&nbsp;                .build();</b>
+<b class="nc">&nbsp;        log.error(String.format(&quot;Code: %s Message: %s &quot;, failedResponse.getCode(), failedResponse.getMessage()));</b>
+<b class="nc">&nbsp;        return ResponseEntity.badRequest().body(failedResponse);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler
+&nbsp;    public ResponseEntity&lt;APIException&gt; SignatureException(SignatureException e) {
+<b class="nc">&nbsp;        APIException failedResponse = APIException.builder()</b>
+<b class="nc">&nbsp;                .message(e.getMessage())</b>
+<b class="nc">&nbsp;                .code(&quot;SING-EXC-00&quot;)</b>
+<b class="nc">&nbsp;                .reason(HttpStatus.BAD_REQUEST.getReasonPhrase())</b>
+<b class="nc">&nbsp;                .build();</b>
+<b class="nc">&nbsp;        log.error(String.format(&quot;Code: %s Message: %s &quot;, failedResponse.getCode(), failedResponse.getMessage()));</b>
+<b class="nc">&nbsp;        return ResponseEntity.badRequest().body(failedResponse);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @ExceptionHandler
+&nbsp;    public ResponseEntity&lt;APIException&gt; SignatureBindException(BindException e) {
+<b class="nc">&nbsp;        List&lt;APIException&gt; errorsList = e.getFieldErrors().stream()</b>
+<b class="nc">&nbsp;                .map(it -&gt; APIException.builder()</b>
+<b class="nc">&nbsp;                        .code(&quot;BIND-EXC-00&quot;)</b>
+<b class="nc">&nbsp;                        .message(it.getDefaultMessage())</b>
+<b class="nc">&nbsp;                        .reason(HttpStatus.BAD_REQUEST.getReasonPhrase())</b>
+<b class="nc">&nbsp;                        .build()).collect(Collectors.toList());</b>
+&nbsp;
+<b class="nc">&nbsp;        APIException failedResponse = APIException.builder()</b>
+<b class="nc">&nbsp;                .message(&quot;Existem campos com erro no formulário enviado.&quot;)</b>
+<b class="nc">&nbsp;                .code(&quot;BIND-EXC-00&quot;)</b>
+<b class="nc">&nbsp;                .errors(errorsList)</b>
+<b class="nc">&nbsp;                .reason(HttpStatus.BAD_REQUEST.getReasonPhrase())</b>
+<b class="nc">&nbsp;                .build();</b>
+<b class="nc">&nbsp;        log.error(String.format(&quot;Code: %s Message: %s &quot;, failedResponse.getCode(), failedResponse.getMessage()));</b>
+<b class="nc">&nbsp;        return ResponseEntity.badRequest().body(failedResponse);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-12-09 04:19</div>
+</div>
+</body>
+</html>
