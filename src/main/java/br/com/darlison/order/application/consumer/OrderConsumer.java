@@ -30,7 +30,6 @@ public class OrderConsumer {
         }  catch (SaveOrderException e) {
             System.out.println("Pedido rejeitado: " + e.getMessage());
         }
-
     }
 
 }
